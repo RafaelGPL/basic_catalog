@@ -1,0 +1,3 @@
+# Port setup -> LOCAL:CONTAINER, you must specify container ID...
+docker run -p 5000:5000 $1
+# use -d param to detach

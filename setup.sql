@@ -5,15 +5,19 @@ CREATE TABLE IF NOT EXISTS
         price FLOAT,
         category VARCHAR(120),
         description TEXT,
-        active BOOLEAN DEFAULT TRUE);
+        quantity INTEGER DEFAULT 0,
+        active BOOLEAN DEFAULT TRUE
+        );
 
 INSERT INTO product(
                 name,
                 price,
                 category,
-                description)
+                description,
+                quantity)
         VALUES(
                 "Flask",
                 100.00,
                 "Modules",
-                "A microweb framework");
+                "A microweb framework",
+                100);

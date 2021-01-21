@@ -23,6 +23,9 @@ def output_formatter(results: tuple):
         res_dict["name"] = result[1]
         res_dict["price"] = result[2]
         res_dict["category"] = result[3]
+        res_dict["description"] = result[4]
+        res_dict["active"] = result[5]
+        res_dict["quantity"] = result[6]
         out["body"].append(res_dict)
     return out
 
@@ -32,6 +35,14 @@ def scan():
     results = cursor.fetchall()
     cursor.close()
     return output_formatter(results)
+
+
+def read_user(first_name):
+    query = """SELECT * FROM user where first_name=? LIMIT 1"""
+    cursor = get_db().execute(query, (first_name,))
+    results = cursor.fetchall()
+    cursor.close()
+    return results
 
 
 def read(prod_id):
@@ -45,7 +56,7 @@ def read(prod_id):
     cursor.close()
     return output_formatter(results)
 
-
+"""UPDATE user SET first_name='Rafael', last_name='GPL'...  WHERE id=1;"""
 def update(prod_id, fields: dict):
     field_string = ", ".join(
                     "%s=\"%s\"" % (key, val)
@@ -62,15 +73,16 @@ def update(prod_id, fields: dict):
     return True
 
 
-def create(name, price, category, description):
-    value_tuple = (name, price, category, description)
+def create(name, price, category, description, quantity):
+    value_tuple = (name, price, category, description, quantity)
     query = """
             INSERT INTO product (
                     name,
                     price,
                     category,
-                    description)
-            VALUES (?, ?, ?, ?)
+                    description,
+                    quantity)
+            VALUES (?, ?, ?, ?, ?)
         """
     cursor = get_db()
     last_row_id = cursor.execute(query, value_tuple).lastrowid
